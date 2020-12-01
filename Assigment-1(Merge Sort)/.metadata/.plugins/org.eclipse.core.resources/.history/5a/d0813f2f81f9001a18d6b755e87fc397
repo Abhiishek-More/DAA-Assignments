@@ -1,0 +1,96 @@
+package assignment1_MergeSort;
+
+import java.util.Scanner;
+
+class MergeSortAlgorithm 
+{
+	void merge(int array[], int left, int mid, int right) 
+	{ 
+		int sizelSubArreft = mid - left + 1; 
+		int sizerSubArright = right - mid; 
+
+		int lSubArr[] = new int[sizelSubArreft]; 
+		int rSubArr[] = new int[sizerSubArright]; 
+
+		for (int i = 0; i < sizelSubArreft; ++i) 
+			lSubArr[i] = array[left + i]; 
+		for (int j = 0; j < sizerSubArright; ++j) 
+			rSubArr[j] = array[mid + 1 + j]; 
+
+		int i = 0, j = 0; 
+
+		int k = left; 
+		while (i < sizelSubArreft && j < sizerSubArright) { 
+			if (lSubArr[i] <= rSubArr[j]) { 
+				array[k] = lSubArr[i]; 
+				i++; 
+			} 
+			else { 
+				array[k] = rSubArr[j]; 
+				j++; 
+			} 
+			k++; 
+		} 
+
+		while (i < sizelSubArreft) { 
+			array[k] = lSubArr[i]; 
+			i++; 
+			k++; 
+		} 
+
+		while (j < sizerSubArright) { 
+			array[k] = rSubArr[j]; 
+			j++; 
+			k++; 
+		} 
+	} 
+
+	void sort(int array[], int left, int right) 
+	{ 
+		if (left < right) { 
+			int mid = (left + right) / 2; 
+
+			sort(array, left, mid); 
+			sort(array, mid + 1, right); 
+
+			merge(array, left, mid, right); 
+		} 
+	} 
+
+	static void printArray(int array[]) 
+	{ 
+		int n = array.length; 
+		for (int i = 0; i < n; ++i) 
+			System.out.print(array[i] + " "); 
+		System.out.println(); 
+	} 
+
+	@SuppressWarnings({ "null", "resource" })
+	public static void main(String args[]) 
+	{ 
+		Scanner sc=new Scanner(System.in);
+		
+		System.out.println("Enter size of arrayay to be sorted: ");
+		
+		int n=0;
+		n = sc.nextInt();
+				
+		int array[] = new int[n];
+		
+		System.out.println("Enter arrayay elements: ");		
+		for(int i=0; i<array.length; i++)
+		{
+			array[i] = sc.nextInt();
+		}
+
+		System.out.println("Your unsorted arrayay is: "); 
+		printArray(array); 
+
+		MergeSortAlgorithm obj = new MergeSortAlgorithm(); 
+		obj.sort(array, 0, array.length - 1); 
+
+		System.out.println();
+		System.out.println("\nSorted arrayay is:"); 
+		printArray(array); 
+	} 
+} 

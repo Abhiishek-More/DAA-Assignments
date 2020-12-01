@@ -1,0 +1,119 @@
+package assignment2_jobScheduling;
+
+import java.util.*;
+
+public class JobScheduling
+{
+  @SuppressWarnings("resource")
+public static void main(String args[])
+  {
+    Scanner sc=new Scanner(System.in);
+    System.out.println("Enter the number of Jobs");
+    int n=sc.nextInt();
+    
+    String a[]=new String[n];
+    int b[]=new int[n];
+    int c[]=new int[n];
+    
+    System.out.println("Enter the Job, profit and then deadline respectively for reach job");
+    for(int i=0;i<n;i++)
+    {
+      a[i]=sc.next();
+      b[i]=sc.nextInt();
+      c[i]=sc.nextInt();
+      if(c[i] <= 0)
+      {
+    	  System.out.println("Deadline should be greater than '0'. Please enter again!");
+          c[i]=sc.nextInt();
+      }
+    }
+    
+    System.out.println("\nOrder in which jobs are entered");
+    System.out.println("Jobs	Profit	Deadline");
+    for(int i=0;i<n;i++)
+    {
+      System.out.print(a[i]+"\t");  
+      System.out.print(b[i]+"\t");
+      System.out.print(c[i]+"\t");
+      System.out.println();
+    }
+    
+    for(int i=0;i<n-1;i++)
+    {
+      for(int j=i+1;j<n;j++)
+      {
+          if(b[i]<b[j])
+          {
+              int temp=b[i];
+              b[i]=b[j];
+              b[j]=temp;
+
+              temp=c[i];
+              c[i]=c[j];
+              c[j]=temp;
+
+              String strTemp=a[i];
+              a[i]=a[j];
+              a[j]=strTemp;
+          }
+      }
+    }
+    
+    System.out.println();
+    System.out.println("Sorted job order");
+    System.out.println("Jobs	Profit	Deadline");
+    for(int i=0;i<n;i++)
+    {
+      System.out.print(a[i]+"\t");  
+      System.out.print(b[i]+"\t");
+      System.out.print(c[i]+"\t");
+      System.out.println();
+    }
+    
+    int max=c[0];
+    for(int i=0;i<n;i++)
+    {
+      if(c[i]>max)
+      {
+        max=c[i];
+      }
+    }
+    
+    String jExec[]=new String[max];
+    int profit=0;
+    
+    for(int i=0;i<n;i++)
+    {
+      int previous=c[i];
+      --previous;
+      
+      if(jExec[previous]==null)
+      {
+        jExec[previous]=a[i];
+        profit+=b[i];
+      }
+      else
+      {
+        while(previous != -1)
+        {
+          if(jExec[previous]==null)
+          {
+            jExec[previous]=a[i];
+            profit+=b[i];
+            break;
+          }
+          --previous;
+        }
+      }
+    }
+    
+    System.out.print("\nJob execution order is: ");
+    for(int i=0;i<max;i++)
+    {
+        System.out.print(jExec[i] + "->");
+    }
+    
+    System.out.println();
+    System.out.print("Total profit Earned: "+profit);
+ }
+}
